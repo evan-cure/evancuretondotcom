@@ -1,144 +1,320 @@
 ---
+
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap" rel="stylesheet">
-		<title>Evan Cureton</title>
-	</head>
-	<body>
-		<main>
-			<div class="hero">
-				<div class="accent-box">
-				
-				<nav class="accent-nav">
-					
-					<a href="/projects">Projects</a>
-					<a href="/blog">Blog</a>
-					<a href="/pictures">Pictures</a>
-					<a href="/about">About</a>
-					
-				</nav>
-				<canvas id="boids-canvas"></canvas>
-				
-			</div>
-				<div class="domain-text">evancureton.com</div>
-			</div>
-		</main>
-	</body>
-	<script src="../boids.ts"></script>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Evan Cureton</title>
+  </head>
+  <body>
+    <main>
+      <div class="hero">
+        <div id="projects-popup" class="popup">
+          <h2>Projects</h2>
+          <p>Coming soon...</p>
+        </div>
+        <div id="pictures-popup" class="popup">
+          <h2>Pictures</h2>
+          <p>Coming soon...</p>
+        </div>
+        <div id="blog-popup" class="popup">
+          <h2>Blog</h2>
+          <p>Coming soon...</p>
+        </div>
+        <div id="about-popup" class="popup">
+          <h2>About Me</h2>
+          <p>
+            Hi! I'm Evan, a third year computer science student interested in
+            interesting web design and ethical applications of ai.
+          </p>
+        </div>
+        <div class="accent-box">
+          <nav class="accent-nav">
+            <div class="nav-item-wrapper">
+              <button class="nav-btn" data-popup="projects">Projects</button>
+              <img
+                class="nav-indicator"
+                src="/images/star-2.svg"
+                alt="active"
+              />
+            </div>
+            <div class="nav-item-wrapper">
+              <button class="nav-btn" data-popup="pictures">Pictures</button>
+              <img
+                class="nav-indicator"
+                src="/images/star-2.svg"
+                alt="active"
+              />
+            </div>
+            <div class="nav-item-wrapper">
+              <button class="nav-btn" data-popup="blog">Blog</button>
+              <img
+                class="nav-indicator"
+                src="/images/star-2.svg"
+                alt="active"
+              />
+            </div>
+            <div class="nav-item-wrapper">
+              <button class="nav-btn" data-popup="about">About</button>
+              <img
+                class="nav-indicator"
+                src="/images/star-2.svg"
+                alt="active"
+              />
+            </div>
+          </nav>
+
+          <canvas id="boids-canvas"></canvas>
+        </div>
+        <div class="domain-text">evancureton.com</div>
+      </div>
+    </main>
+  </body>
+  <script src="../boids.ts"></script>
+  <script>
+    const navBtns = document.querySelectorAll(".nav-btn");
+    const toggledPopup = {}; // Track which popup is toggled (only one)
+
+    navBtns.forEach((btn) => {
+      const popupId = btn.dataset.popup;
+
+      const popup = document.getElementById(`${popupId}-popup`);
+      const indicator = btn.parentElement.querySelector(".nav-indicator");
+      const navItemWrapper = btn.parentElement;
+
+      btn.addEventListener("click", () => {
+        // If another popup is toggled, close it first
+        Object.keys(toggledPopup).forEach((otherId) => {
+          if (otherId !== popupId) {
+            toggledPopup[otherId] = false;
+            const otherPopup = document.getElementById(`${otherId}-popup`);
+            const otherBtn = document.querySelector(
+              `[data-popup="${otherId}"]`,
+            );
+            const otherIndicator =
+              otherBtn.parentElement.querySelector(".nav-indicator");
+            otherPopup.classList.remove("active");
+            otherIndicator.classList.remove("active");
+          }
+        });
+
+        // Toggle this popup
+        if (toggledPopup[popupId]) {
+          toggledPopup[popupId] = false;
+          popup.classList.remove("active");
+          indicator.classList.remove("active");
+        } else {
+          toggledPopup[popupId] = true;
+          popup.classList.add("active");
+          indicator.classList.add("active");
+        }
+      });
+
+      btn.addEventListener("mouseenter", () => {
+        // Only show hover preview if no popup is currently toggled
+        const isAnyToggled = Object.values(toggledPopup).some((val) => val);
+        if (!isAnyToggled) {
+          popup.classList.add("active");
+        }
+      });
+
+      // Hide popup when mouse leaves the nav item (much tighter hitbox)
+      navItemWrapper.addEventListener("mouseleave", () => {
+        if (!toggledPopup[popupId]) {
+          popup.classList.remove("active");
+        }
+      });
+    });
+  </script>
 </html>
 
 <style>
-	html, body {
-		height: 100vh;
-		margin: 0;
-		padding: 0;
-	}
+  html,
+  body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
 
-	main {
-		height: 100%;
-	}
+  main {
+    height: 100%;
+  }
 
-	.hero {
-		position: relative;
-		min-height: 100vh;
-		background-image: url('/images/background.jpg');
-		background-size: cover;
-		background-position: center top;
-	}
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background-image: url("/images/background.jpg");
+    background-size: cover;
+    background-position: center top;
+  }
 
-	.accent-box {
-		position: absolute;
-		top: 10vh;
-		right: 0;
-		width: 400px;
-		height: 700px;
-		background-color: #0A4506;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+  .accent-box {
+    position: absolute;
+    top: 10vh;
+    right: 5vh;
+    width: 300px;
+    height: 500px;
+    background-color: #0a4506;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-	.accent-nav {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		justify-content: space-between;
-		height: 100%;
-		width: 100%;
-		padding: 40px 0;
-		box-sizing: border-box;
-	}
+  .accent-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+    width: 100%;
+    padding: 40px 0;
+    box-sizing: border-box;
+  }
 
-	.accent-nav a {
-		color: white;
-		text-decoration: none;
-		font-family: "Lexend Giga", sans-serif;
-		font-size: 24px;
-		font-weight: 400;
-		transition: opacity 0.3s;
-		text-align: center;
-		position: relative;
-		z-index: 10;
-	}
+  .accent-nav a {
+    color: white;
+    text-decoration: none;
+    font-family: "Lexend Giga", sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    transition: opacity 0.3s;
+    text-align: left;
+    position: relative;
+    z-index: 10;
+    padding-left: 20px;
+  }
 
-	.accent-nav a:hover {
-		opacity: 0.8;
-	}
+  .accent-nav a:hover {
+    opacity: 0.8;
+  }
 
-	@media (max-width: 768px) {
-		.accent-box {
-			position: fixed;
-			bottom: 0;
-			right: 0;
-			top: auto;
-			width: 100%;
-			height: auto;
-			padding: 20px 0;
-		}
+  @media (max-width: 768px) {
+    .accent-box {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      top: auto;
+      width: 100%;
+      height: auto;
+      padding: 20px 0;
+    }
 
-		.accent-nav {
-			flex-direction: row;
-			justify-content: space-around;
-			padding: 0 20px;
-		}
+    .accent-nav {
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0 20px;
+    }
 
-		.accent-nav a {
-			font-size: 16px;
-		}
+    .accent-nav a {
+      font-size: 16px;
+    }
 
-		.domain-text {
-			font-size: 48px;
-			padding: 10px;
-		}
-	}
-	#boids-canvas {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-	}
+    .domain-text {
+      font-size: 48px;
+      padding: 10px;
+    }
+  }
+  #boids-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
 
-	.domain-text {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		font-family: "Lexend Giga", sans-serif;
-		font-optical-sizing: auto;
-		font-weight: 400;
-		font-size: 92px;
-		color: white;
-		margin: 0;
-		padding: 20px;
-	}
+  .domain-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-family: "Lexend Giga", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 92px;
+    color: white;
+    margin: 0;
+    padding: -5px;
+  }
+
+  .nav-btn {
+    color: white;
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-family: "Lexend Giga", sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    transition: opacity 0.3s;
+    text-align: left;
+    position: relative;
+    z-index: 10;
+    padding-left: 20px;
+    cursor: pointer;
+  }
+
+  .nav-btn:hover {
+    opacity: 0.8;
+  }
+
+  .nav-item-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-indicator {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .nav-indicator.active {
+    opacity: 1;
+  }
+
+  .popup {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 60vh;
+    height: 300px;
+    background-color: #0a4506;
+    color: white;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    font-family: "Lexend Giga", sans-serif;
+  }
+
+  .popup h2 {
+    font-size: 28px;
+    margin: 0 0 20px 0;
+  }
+
+  .popup p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .popup.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
 </style>
-

@@ -2,18 +2,18 @@ const canvas = document.getElementById("boids-canvas") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d")!;
 
 // --- config ---
-const NUM = 80;
-const MAX_SPEED = 3;
+const NUM = 5;
+const MAX_SPEED = 2;
 const MIN_SPEED = MAX_SPEED * 0.35;
 const VISION = 60;
-const AVOID_DIST = 25;
+const AVOID_DIST = 100;
 const MARGIN = 30;
 const TURN_FACTOR = 0.35;
 const SEP_WEIGHT = 1.5;
 const ALI_WEIGHT = 1.0;
 const COH_WEIGHT = 1.0;
 const CURSOR_STRENGTH = 3.5;
-const FEAR_RADIUS = 80;
+const FEAR_RADIUS = 50;
 
 // --- types ---
 interface Boid {
@@ -166,7 +166,7 @@ function step() {
 // --- drawing ---
 function drawBoid(b: Boid) {
   const angle = Math.atan2(b.vy, b.vx);
-  const size = 7;
+  const size = 10;
 
   ctx.save();
   ctx.translate(b.x, b.y);
@@ -179,13 +179,7 @@ function drawBoid(b: Boid) {
   ctx.lineTo(-size * 0.6, -size * 0.45);
   ctx.closePath();
 
-  // colour shifts warm/orange when scared, cool blue-white normally
-  const t = Math.min(1, Math.sqrt(b.vx * b.vx + b.vy * b.vy) / (MAX_SPEED * 1.8));
-  const s = b.scared;
-  const r = Math.round((80 + t * 120) * (1 - s) + 220 * s);
-  const g = Math.round((160 + t * 60) * (1 - s) + 80 * s);
-  const bl = Math.round((220 + t * 35) * (1 - s) + 60 * s);
-  ctx.fillStyle = `rgb(${r},${g},${bl})`;
+  ctx.fillStyle = `rgb(${255},${255},${255})`;
   ctx.fill();
 
   ctx.restore();
