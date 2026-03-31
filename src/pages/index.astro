@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <html lang="en">
@@ -9,9 +8,137 @@
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap" rel="stylesheet">
+		<title>Evan Cureton</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<main>
+			<div class="hero">
+				<div class="accent-box">
+				
+				<nav class="accent-nav">
+					
+					<a href="/projects">Projects</a>
+					<a href="/blog">Blog</a>
+					<a href="/pictures">Pictures</a>
+					<a href="/about">About</a>
+					
+				</nav>
+				<canvas id="boids-canvas"></canvas>
+				
+			</div>
+				<div class="domain-text">evancureton.com</div>
+			</div>
+		</main>
 	</body>
+	<script src="../boids.ts"></script>
 </html>
+
+<style>
+	html, body {
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+	}
+
+	main {
+		height: 100%;
+	}
+
+	.hero {
+		position: relative;
+		min-height: 100vh;
+		background-image: url('/images/background.jpg');
+		background-size: cover;
+		background-position: center top;
+	}
+
+	.accent-box {
+		position: absolute;
+		top: 10vh;
+		right: 0;
+		width: 400px;
+		height: 700px;
+		background-color: #0A4506;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.accent-nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		justify-content: space-between;
+		height: 100%;
+		width: 100%;
+		padding: 40px 0;
+		box-sizing: border-box;
+	}
+
+	.accent-nav a {
+		color: white;
+		text-decoration: none;
+		font-family: "Lexend Giga", sans-serif;
+		font-size: 24px;
+		font-weight: 400;
+		transition: opacity 0.3s;
+		text-align: center;
+		position: relative;
+		z-index: 10;
+	}
+
+	.accent-nav a:hover {
+		opacity: 0.8;
+	}
+
+	@media (max-width: 768px) {
+		.accent-box {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			top: auto;
+			width: 100%;
+			height: auto;
+			padding: 20px 0;
+		}
+
+		.accent-nav {
+			flex-direction: row;
+			justify-content: space-around;
+			padding: 0 20px;
+		}
+
+		.accent-nav a {
+			font-size: 16px;
+		}
+
+		.domain-text {
+			font-size: 48px;
+			padding: 10px;
+		}
+	}
+	#boids-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+	}
+
+	.domain-text {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		font-family: "Lexend Giga", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 400;
+		font-size: 92px;
+		color: white;
+		margin: 0;
+		padding: 20px;
+	}
+</style>
+
