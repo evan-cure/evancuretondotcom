@@ -1,0 +1,63 @@
+---
+interface Props {
+  isMini?: boolean;
+}
+
+const { isMini = false } = Astro.props;
+---
+
+<div class={`content-section projects ${isMini ? "mini" : "full"}`}>
+  <h2>Projects</h2>
+  <div class="projects-list">
+    <div class="project-item">
+      <h3>Project 1</h3>
+      <p>Description coming soon...</p>
+    </div>
+    <div class="project-item">
+      <h3>Project 2</h3>
+      <p>Description coming soon...</p>
+    </div>
+  </div>
+</div>
+
+<style define:vars={{ isMini }}>
+  .content-section {
+    font-family: "Lexend Giga", sans-serif;
+  }
+
+  .content-section.mini {
+    font-size: 0.8em;
+    max-height: 400px;
+  }
+
+  .content-section.full {
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  .content-section h2 {
+    margin: 0 0 20px 0;
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .project-item {
+    padding: 10px;
+    border-left: 2px solid #4a9d6f;
+  }
+
+  .project-item h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2em;
+  }
+
+  .project-item p {
+    margin: 0;
+    font-size: 0.9em;
+    opacity: 0.9;
+  }
+</style>

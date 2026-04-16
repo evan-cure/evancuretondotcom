@@ -1,0 +1,63 @@
+---
+interface Props {
+  isMini?: boolean;
+}
+
+const { isMini = false } = Astro.props;
+---
+
+<div class={`content-section blog ${isMini ? "mini" : "full"}`}>
+  <h2>Blog</h2>
+  <div class="blog-list">
+    <article class="blog-post">
+      <h3>Blog Post 1</h3>
+      <p class="date">Coming soon...</p>
+    </article>
+    <article class="blog-post">
+      <h3>Blog Post 2</h3>
+      <p class="date">Coming soon...</p>
+    </article>
+  </div>
+</div>
+
+<style>
+  .content-section {
+    font-family: "Lexend Giga", sans-serif;
+  }
+
+  .content-section.mini {
+    font-size: 0.8em;
+    max-height: 400px;
+  }
+
+  .content-section.full {
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  .content-section h2 {
+    margin: 0 0 20px 0;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .blog-post {
+    padding: 15px;
+    border-left: 2px solid #4a9d6f;
+  }
+
+  .blog-post h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+  }
+
+  .blog-post .date {
+    margin: 0;
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+interface Props {
+  isMini?: boolean;
+}
+
+const { isMini = false } = Astro.props;
+---
+
+<div class={`content-section pictures ${isMini ? "mini" : "full"}`}>
+  <h2>Pictures</h2>
+  <div class="pictures-grid">
+    <div class="picture-placeholder">Image 1</div>
+    <div class="picture-placeholder">Image 2</div>
+    <div class="picture-placeholder">Image 3</div>
+  </div>
+</div>
+
+<style>
+  .content-section {
+    font-family: "Lexend Giga", sans-serif;
+  }
+
+  .content-section.mini {
+    font-size: 0.8em;
+    max-height: 400px;
+  }
+
+  .content-section.full {
+    padding: 40px;
+    min-height: 100vh;
+  }
+
+  .content-section h2 {
+    margin: 0 0 20px 0;
+  }
+
+  .pictures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .picture-placeholder {
+    aspect-ratio: 1;
+    background-color: rgba(74, 157, 111, 0.3);
+    border: 2px solid #4a9d6f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+</style>

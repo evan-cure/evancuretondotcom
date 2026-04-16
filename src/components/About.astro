@@ -1,0 +1,41 @@
+---
+interface Props {
+  isMini?: boolean;
+}
+
+const { isMini = false } = Astro.props;
+---
+
+<div class={`content-section about ${isMini ? "mini" : "full"}`}>
+  <h2>About Me</h2>
+  <p>
+    Hi! I'm Evan, a third year computer science student interested in
+    interesting web design and ethical applications of AI.
+  </p>
+</div>
+
+<style>
+  .content-section {
+    font-family: "Lexend Giga", sans-serif;
+  }
+
+  .content-section.mini {
+    font-size: 0.8em;
+    max-height: 400px;
+  }
+
+  .content-section.full {
+    padding: 40px;
+    min-height: 100vh;
+    color: white;
+  }
+
+  .content-section h2 {
+    margin: 0 0 20px 0;
+  }
+
+  .content-section p {
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+  }
+</style>

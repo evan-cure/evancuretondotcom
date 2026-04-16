@@ -12,7 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.2"
+    "astro": "^6.1.2",
+    "interactjs": "^1.10.27"
   },
   "devDependencies": {
     "prettier": "^3.8.1",
