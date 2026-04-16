@@ -4,21 +4,80 @@ interface Props {
 }
 
 const { isMini = false } = Astro.props;
+
+const projects = [
+  {
+    title: "Super Resolution",
+    description:
+      "Machine learning project on an image denoising/super-resolution app, trained on the CelebA dataset. Utilized an auto-encoder archtiecture in PyTorch.",
+    image: "/images/superres.jpg",
+    link: "https://colab.research.google.com/drive/1twpmFSHA_nZ9FrxE3deNwjqXmU3-8Ji4?usp=sharing",
+    skills: ["PyTorch", "Machine Learning", "NumPy"],
+  },
+  {
+    title: "Gesture Recognition",
+    description:
+      "Used Google's media pipe to create the backend of an app that detects a hand, gestures made by the hand, and the distance between hand.",
+    image: "/images/gesture_recognition.png",
+    link: "https://github.com/evan-cure/Gesture_Recognition",
+    skills: ["Python", "MediaPipe", "OpenCV"],
+  },
+  {
+    title: "evancureton.com",
+    description:
+      "Quick little portfolio site. pretty stoked with how it turned out",
+    image: "/images/personalsite.png",
+    link: "/",
+    skills: ["HTML", "CSS", "JavaScript"],
+  },
+];
 ---
 
 <div class={`content-section projects ${isMini ? "mini" : "full"}`}>
-  <h2>Projects</h2>
   <div class="projects-list">
-    <div class="project-item">
-      <h3>Project 1</h3>
-      <p>Description coming soon...</p>
-    </div>
-    <div class="project-item">
-      <h3>Project 2</h3>
-      <p>Description coming soon...</p>
-    </div>
+    {
+      projects.map((project) => (
+        <details class="project-item">
+          <summary class="project-title">
+            <span class="arrow rotated">▼</span>
+            {project.title}
+          </summary>
+          <div class="project-content">
+            <img src={project.image} alt={"\n"} />
+            <p>{project.description}</p>
+            <a
+              href={project.link}
+              target={project.link.startsWith("/") ? "_self" : "_blank"}
+              rel="noreferrer"
+              class="project-link"
+            >
+              Visit project →
+            </a>
+            <div class="skills">
+              {project.skills.map((skill) => (
+                <span class="skill-tag">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </details>
+      ))
+    }
   </div>
 </div>
+
+<script>
+  document.querySelectorAll(".project-item").forEach((details) => {
+    const arrow = details.querySelector(".arrow");
+
+    details.addEventListener("toggle", function () {
+      if (this.open) {
+        arrow.classList.remove("rotated");
+      } else {
+        arrow.classList.add("rotated");
+      }
+    });
+  });
+</script>
 
 <style define:vars={{ isMini }}>
   .content-section {
@@ -33,31 +92,111 @@ const { isMini = false } = Astro.props;
   .content-section.full {
     padding: 40px;
     min-height: 100vh;
+    color: white;
   }
 
   .content-section h2 {
     margin: 0 0 20px 0;
+    color: white;
   }
 
   .projects-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 30px;
   }
 
   .project-item {
-    padding: 10px;
-    border-left: 2px solid #4a9d6f;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 16px;
   }
 
-  .project-item h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.2em;
+  .project-item:last-child {
+    border-bottom: none;
+  }
+
+  .project-title {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 0;
+    transition: opacity 0.3s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .project-title:hover {
+    opacity: 0.7;
+  }
+
+  .project-title::marker {
+    content: "";
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+  }
+
+  .arrow.rotated {
+    transform: rotate(-90deg);
+  }
+
+  details[open] .project-title {
+    margin-bottom: 12px;
+  }
+
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: 12px;
+  }
+
+  .project-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
   }
 
   .project-item p {
     margin: 0;
     font-size: 0.9em;
     opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .project-link {
+    text-decoration: none;
+    color: rgba(74, 157, 111, 1);
+    font-size: 0.85em;
+    display: inline-block;
+    transition: opacity 0.3s;
+    width: fit-content;
+  }
+
+  .project-link:hover {
+    opacity: 0.7;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .skill-tag {
+    font-size: 0.8em;
+    background: rgba(74, 157, 111, 0.2);
+    border: 1px solid rgba(74, 157, 111, 0.5);
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-block;
   }
 </style>
