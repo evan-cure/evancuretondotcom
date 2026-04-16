@@ -12,7 +12,56 @@ const { isMini = false } = Astro.props;
     Hi! I'm Evan, a third year computer science student interested in
     interesting web design and ethical applications of AI.
   </p>
+  <a href="/CURETON_EVAN.pdf" target="_blank" class="cv-link">View CV →</a>
+  <h3 class="section-header" data-section="work">
+    <span class="arrow rotated">▼</span> Work Experience
+  </h3>
+
+  <div class="section-content collapsed" id="work">
+    <div class="job">
+      <div class="job-header">
+        <h4>Software and DevOps Intern</h4>
+        <span class="location"
+          >Riskfuel Analytics Inc • May 2025 – Sep 2025</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <h3 class="section-header" data-section="research">
+    <span class="arrow rotated">▼</span> Research and Academic Involvement
+  </h3>
+
+  <div class="section-content collapsed" id="research">
+    <div class="job">
+      <div class="job-header">
+        <h4>Responsible AI Lead Researcher</h4>
+        <span class="location">McGill AI Society • Oct 2025 – Present</span>
+      </div>
+    </div>
+    <div class="job">
+      <div class="job-header">
+        <h4>ML Research Mentee</h4>
+        <span class="location"
+          >McGill Bridge Mentorship Program • Dec 2024 – May 2025</span
+        >
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  document.querySelectorAll(".section-header").forEach((header) => {
+    header.addEventListener("click", function () {
+      const sectionId = this.getAttribute("data-section");
+      const content = document.getElementById(sectionId);
+      const arrow = this.querySelector(".arrow");
+
+      content.classList.toggle("collapsed");
+      arrow.classList.toggle("rotated");
+    });
+  });
+</script>
 
 <style>
   .content-section {
@@ -37,5 +86,83 @@ const { isMini = false } = Astro.props;
   .content-section p {
     line-height: 1.6;
     margin: 0 0 30px 0;
+  }
+
+  .section-header {
+    margin: 20px 0 10px 0;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: opacity 0.3s;
+  }
+
+  .section-header:hover {
+    opacity: 0.8;
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+  }
+
+  .arrow.rotated {
+    transform: rotate(-90deg);
+  }
+
+  .section-content {
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
+    max-height: 2000px;
+    overflow: hidden;
+    opacity: 1;
+  }
+
+  .section-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .job {
+    margin-bottom: 8px;
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .job-header h4 {
+    margin: 0;
+    font-size: 0.95em;
+    font-weight: 600;
+  }
+
+  .location {
+    font-size: 0.8em;
+    opacity: 0.8;
+    white-space: nowrap;
+  }
+
+  .cv-link {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    border: 1px solid white;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+  }
+
+  .cv-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
   }
 </style>
