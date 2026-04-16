@@ -1,18 +1,42 @@
 ---
+import { getCollection } from "astro:content";
+
 interface Props {
   isMini?: boolean;
 }
 
 const { isMini = false } = Astro.props;
+
+const albums = await getCollection("pictures");
 ---
 
 <div class={`content-section pictures ${isMini ? "mini" : "full"}`}>
   <h2>Pictures</h2>
-  <div class="pictures-grid">
-    <div class="picture-placeholder">Image 1</div>
-    <div class="picture-placeholder">Image 2</div>
-    <div class="picture-placeholder">Image 3</div>
-  </div>
+  <p>A collection of photos and moments.</p>
+  {
+    albums.length > 0 ? (
+      albums.map((album) => (
+        <div class="album">
+          <h3>{album.data.title}</h3>
+          {album.data.description && (
+            <p class="album-description">{album.data.description}</p>
+          )}
+          <div class="pictures-grid">
+            {album.data.images.map((img) => (
+              <div class="picture-item">
+                <img src={img.src} alt={img.alt} />
+                {img.caption && <p class="caption">{img.caption}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    ) : (
+      <div class="pictures-grid">
+        <div class="picture-placeholder">No photos yet</div>
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -34,10 +58,60 @@ const { isMini = false } = Astro.props;
     margin: 0 0 20px 0;
   }
 
+  .content-section p {
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+  }
+
+  .album {
+    margin-bottom: 40px;
+  }
+
+  .album h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+  }
+
+  .album-description {
+    margin: 0 0 15px 0;
+    font-size: 0.9em;
+    opacity: 0.85;
+  }
+
   .pictures-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
+  }
+
+  .picture-item {
+    aspect-ratio: 1;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .picture-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .picture-item .caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    margin: 0;
+    padding: 8px;
+    font-size: 0.8em;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .picture-item:hover .caption {
+    opacity: 1;
   }
 
   .picture-placeholder {

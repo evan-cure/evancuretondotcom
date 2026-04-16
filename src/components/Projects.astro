@@ -34,6 +34,11 @@ const projects = [
 ---
 
 <div class={`content-section projects ${isMini ? "mini" : "full"}`}>
+  <h2>Projects</h2>
+  <p>
+    A couple of projects I've worked on ranging from machine learning to web
+    development.
+  </p>
   <div class="projects-list">
     {
       projects.map((project) => (
@@ -104,6 +109,7 @@ const projects = [
     display: flex;
     flex-direction: column;
     gap: 30px;
+    padding-top: 30px;
   }
 
   .project-item {

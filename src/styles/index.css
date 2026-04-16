@@ -75,6 +75,7 @@ main {
   color: white;
   margin: 0;
   padding: -5px;
+  user-select: none;
 }
 
 .nav-btn {
@@ -109,6 +110,9 @@ main {
   margin-left: 5px;
   opacity: 0;
   transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-indicator.active {
