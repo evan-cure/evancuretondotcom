@@ -20,19 +20,24 @@ const sortedPosts = posts.sort(
     {
       sortedPosts.length > 0 ? (
         sortedPosts.map((post) => (
-          <article class="blog-post">
-            <h3>{post.data.title}</h3>
-            <p class="date">
-              {post.data.date.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </p>
-            {post.data.description && (
-              <p class="description">{post.data.description}</p>
-            )}
-          </article>
+          <a
+            href={`/blog/${post.id.replace(/\.md$/, "")}`}
+            class="blog-post-link"
+          >
+            <article class="blog-post">
+              <h3>{post.data.title}</h3>
+              <p class="date">
+                {post.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              {post.data.description && (
+                <p class="description">{post.data.description}</p>
+              )}
+            </article>
+          </a>
         ))
       ) : (
         <article class="blog-post">
@@ -47,6 +52,30 @@ const sortedPosts = posts.sort(
 <style>
   .content-section {
     font-family: "Lexend Giga", sans-serif;
+  }
+
+  .blog-post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition:
+      transform 0.2s,
+      opacity 0.2s;
+  }
+
+  .blog-post-link:hover {
+    transform: translateX(4px);
+    opacity: 0.8;
+  }
+
+  .blog-post-link:hover .blog-post {
+    background-color: #1a1a1a;
+  }
+
+  .blog-post {
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
   }
 
   .content-section.mini {
