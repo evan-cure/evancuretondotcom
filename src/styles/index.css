@@ -3,6 +3,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  background-color: #0a4506;
 }
 
 main {
@@ -15,6 +16,7 @@ main {
   background-image: url("/images/background.jpg");
   background-size: cover;
   background-position: center top;
+  background-color: #0a4506;
 }
 
 .accent-box {
