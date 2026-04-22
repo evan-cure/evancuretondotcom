@@ -15,7 +15,7 @@ const albums = await getCollection("pictures");
     Pictures
     {isMini ? <a href="/pictures">↝</a> : <a href="/">↜</a>}
   </h2>
-  <p>A collection of photos and moments.</p>
+  <p>Some pictures.</p>
   {
     albums.length > 0 ? (
       albums.map((album) => (

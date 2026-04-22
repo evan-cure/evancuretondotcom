@@ -80,6 +80,9 @@ const { isMini = false } = Astro.props;
     padding: 40px;
     min-height: 100vh;
     color: white;
+    background-image: url("/images/me.jpeg");
+    background-size: 100vw auto;
+    background-repeat: no-repeat;
   }
 
   .content-section h2 {
@@ -93,6 +96,17 @@ const { isMini = false } = Astro.props;
 
   .section-heading a:visited {
     color: inherit;
+  }
+
+  .content-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .content-section.full img {
+    max-width: 300px;
   }
 
   .content-section p {

@@ -1,8 +1,8 @@
 ---
-title: "Example Album"
-description: "This is an example photo album. Replace with your own images!"
+title: "Scotland"
+description: "Some pics from my exchange in Glasgow"
 images:
-  - src: "/images/superres.jpg"
-    alt: "Example image 1"
-    caption: "Add your own images and captions here"
+  - src: "/images/me.jpeg"
+    alt: "Me in the arrochar alps"
+    caption: "Me in the arrochar alps"
 ---
