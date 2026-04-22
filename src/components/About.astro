@@ -78,11 +78,12 @@ const { isMini = false } = Astro.props;
 
   .content-section.full {
     padding: 40px;
-    min-height: 100vh;
     color: white;
     background-image: url("/images/me.jpeg");
-    background-size: 100vw auto;
-    background-repeat: no-repeat;
+    background-size: 100vw;
+    min-height: 100vh;
+    z-index: 1;
+    position: relative;
   }
 
   .content-section h2 {
@@ -101,7 +102,6 @@ const { isMini = false } = Astro.props;
   .content-section img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
     margin-bottom: 20px;
   }
 
