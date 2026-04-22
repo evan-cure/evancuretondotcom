@@ -11,7 +11,10 @@ const albums = await getCollection("pictures");
 ---
 
 <div class={`content-section pictures ${isMini ? "mini" : "full"}`}>
-  <h2>Pictures</h2>
+  <h2 class="section-heading">
+    Pictures
+    {isMini ? <a href="/pictures">↝</a> : <a href="/">↜</a>}
+  </h2>
   <p>A collection of photos and moments.</p>
   {
     albums.length > 0 ? (
@@ -56,6 +59,15 @@ const albums = await getCollection("pictures");
 
   .content-section h2 {
     margin: 0 0 20px 0;
+  }
+
+  .section-heading a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .section-heading a:visited {
+    color: inherit;
   }
 
   .content-section p {

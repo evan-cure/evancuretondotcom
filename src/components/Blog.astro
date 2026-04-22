@@ -14,8 +14,10 @@ const sortedPosts = posts.sort(
 ---
 
 <div class={`content-section blog ${isMini ? "mini" : "full"}`}>
-  <h2>Blog</h2>
-  <p>Word Vomit</p>
+  <h2 class="section-heading">
+    Blog
+    {isMini ? <a href="/blog">↝</a> : <a href="/">↜</a>}
+  </h2>
   <div class="blog-list">
     {
       sortedPosts.length > 0 ? (
@@ -119,5 +121,14 @@ const sortedPosts = posts.sort(
     font-size: 0.9em;
     opacity: 0.85;
     line-height: 1.5;
+  }
+
+  .section-heading a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .section-heading a:visited {
+    color: inherit;
   }
 </style>

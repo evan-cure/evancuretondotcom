@@ -34,7 +34,10 @@ const projects = [
 ---
 
 <div class={`content-section projects ${isMini ? "mini" : "full"}`}>
-  <h2>Projects</h2>
+  <h2 class="section-heading">
+    Projects
+    {isMini ? <a href="/projects">↝</a> : <a href="/">↜</a>}
+  </h2>
   <p>
     A couple of projects I've worked on ranging from machine learning to web
     development.
@@ -103,6 +106,15 @@ const projects = [
   .content-section h2 {
     margin: 0 0 20px 0;
     color: white;
+  }
+
+  .section-heading a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .section-heading a:visited {
+    color: inherit;
   }
 
   .projects-list {

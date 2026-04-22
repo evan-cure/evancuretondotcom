@@ -7,7 +7,10 @@ const { isMini = false } = Astro.props;
 ---
 
 <div class={`content-section about ${isMini ? "mini" : "full"}`}>
-  <h2>About Me</h2>
+  <h2 class="section-heading">
+    About Me
+    {isMini ? <a href="/about">↝</a> : <a href="/">↜</a>}
+  </h2>
   <p>
     Hi! I'm Evan, a third year computer science student interested in
     interesting web design and ethical applications of AI.
@@ -81,6 +84,15 @@ const { isMini = false } = Astro.props;
 
   .content-section h2 {
     margin: 0 0 20px 0;
+  }
+
+  .section-heading a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .section-heading a:visited {
+    color: inherit;
   }
 
   .content-section p {
