@@ -16,11 +16,21 @@ import Pictures from "../components/Pictures.astro";
     <title>Pictures - Evan Cureton</title>
   </head>
   <body>
+    <canvas id="boids-canvas"></canvas>
     <main>
       <Pictures isMini={false} />
     </main>
   </body>
   <style>
+    #boids-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -30,6 +40,9 @@ import Pictures from "../components/Pictures.astro";
 
     main {
       min-height: 100vh;
+      position: relative;
+      z-index: 1;
     }
   </style>
+  <script src="../scripts/boids.ts"></script>
 </html>
