@@ -27,6 +27,7 @@
             >↜</span
           >
         </h1>
+        <div class="flash-text">click me</div>
         <div id="party-details" style="display: none;">
           <p>ATC 1</p>
           <p id="party-time">5025 Esplanade</p>
@@ -49,6 +50,15 @@
             const audioEl = document.getElementById("party-audio");
             if (audioEl && audioEl.paused) {
               audioEl.play().catch(() => {});
+            }
+
+            // Change the flash text to "sound on" then hide it shortly after
+            const flash = document.querySelector(".flash-text");
+            if (flash) {
+              flash.textContent = "sound on";
+              setTimeout(() => {
+                flash.style.display = "none";
+              }, 1500);
             }
           });
 
@@ -119,6 +129,12 @@
         animation: pulse 1.5s ease-in-out infinite;
       }
 
+      .flash-text {
+        margin-top: 12px;
+        font-size: 1rem;
+        animation: flash 5s linear infinite;
+      }
+
       @keyframes pulse {
         0%,
         100% {
@@ -128,6 +144,16 @@
         50% {
           opacity: 0.6;
           transform: scale(1.2);
+        }
+      }
+
+      @keyframes flash {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
         }
       }
 
