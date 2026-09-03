@@ -19,7 +19,7 @@
     <video id="party-video" autoplay muted loop playsinline>
       <source src="/fish.mp4" type="video/mp4" />
     </video>
-    <audio id="party-audio" src="/uandu.mp3" autoplay loop></audio>
+    <audio id="party-audio" src="/uandu.mp3" loop preload="auto"></audio>
     <main>
       <div class="party-content">
         <h1 id="party-header">
@@ -45,7 +45,24 @@
             } else {
               details.style.display = "none";
             }
+
+            const audioEl = document.getElementById("party-audio");
+            if (audioEl && audioEl.paused) {
+              audioEl.play().catch(() => {});
+            }
           });
+
+        // Some mobile browsers require a user gesture on touchstart/click to enable audio.
+        // Attempt to play on first touch or click, then remove the listeners.
+        const _audio = document.getElementById("party-audio");
+        function _tryPlayAudio() {
+          if (!_audio) return;
+          _audio.play().catch(() => {});
+          document.removeEventListener("click", _tryPlayAudio);
+          document.removeEventListener("touchstart", _tryPlayAudio);
+        }
+        document.addEventListener("click", _tryPlayAudio);
+        document.addEventListener("touchstart", _tryPlayAudio);
       </script>
     </main>
 
