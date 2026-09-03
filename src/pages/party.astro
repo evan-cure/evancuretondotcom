@@ -1,0 +1,123 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Party</title>
+  </head>
+  <body>
+    <video id="party-video" autoplay muted loop playsinline>
+      <source src="/fish.mp4" type="video/mp4" />
+    </video>
+    <main>
+      <div class="party-content">
+        <h1 id="party-header">
+          <span class="pulse-arrow">↝</span>Party<span class="pulse-arrow"
+            >↜</span
+          >
+        </h1>
+        <div id="party-details" style="display: none;">
+          <p>ATC 1</p>
+          <p id="party-time">5025 Esplanade</p>
+          <p id="party-location">09/12</p>
+          <p>c u soon<p></p></p>
+        </div>
+      </div>
+
+      <script>
+        document
+          .getElementById("party-header")
+          .addEventListener("click", () => {
+            const details = document.getElementById("party-details");
+            if (details.style.display === "none") {
+              details.style.display = "block";
+            } else {
+              details.style.display = "none";
+            }
+          });
+      </script>
+    </main>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Lexend Giga", sans-serif;
+      }
+
+      #party-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .party-content {
+        text-align: center;
+        color: white;
+        font-family: "Lexend Giga", sans-serif;
+      }
+
+      h1 {
+        font-size: 4rem;
+        margin: 0;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      h1:hover {
+        transform: scale(1.15);
+      }
+
+      .pulse-arrow {
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.2);
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </body>
+</html>
