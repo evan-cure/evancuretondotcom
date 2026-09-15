@@ -22,59 +22,9 @@
     <audio id="party-audio" src="/uandu.mp3" loop preload="auto"></audio>
     <main>
       <div class="party-content">
-        <h1 id="party-header">
-          <span class="pulse-arrow">↝</span>Party<span class="pulse-arrow"
-            >↜</span
-          >
-        </h1>
-        <div class="flash-text">click me</div>
-        <div id="party-details" style="display: none;">
-          <p>ATC 1</p>
-          <p id="party-time">5025 Esplanade</p>
-          <p id="party-location">09/12</p>
-          <p>21:00</p>
-          <p>c u soon<p></p></p>
-        </div>
+        <h1 id="party-header">thx</h1>
+        <h2>smth new soon</h2>
       </div>
-
-      <script>
-        document
-          .getElementById("party-header")
-          .addEventListener("click", () => {
-            const details = document.getElementById("party-details");
-            if (details.style.display === "none") {
-              details.style.display = "block";
-            } else {
-              details.style.display = "none";
-            }
-
-            const audioEl = document.getElementById("party-audio");
-            if (audioEl && audioEl.paused) {
-              audioEl.play().catch(() => {});
-            }
-
-            // Change the flash text to "sound on" then hide it shortly after
-            const flash = document.querySelector(".flash-text");
-            if (flash) {
-              flash.textContent = "sound on";
-              setTimeout(() => {
-                flash.style.display = "none";
-              }, 1500);
-            }
-          });
-
-        // Some mobile browsers require a user gesture on touchstart/click to enable audio.
-        // Attempt to play on first touch or click, then remove the listeners.
-        const _audio = document.getElementById("party-audio");
-        function _tryPlayAudio() {
-          if (!_audio) return;
-          _audio.play().catch(() => {});
-          document.removeEventListener("click", _tryPlayAudio);
-          document.removeEventListener("touchstart", _tryPlayAudio);
-        }
-        document.addEventListener("click", _tryPlayAudio);
-        document.addEventListener("touchstart", _tryPlayAudio);
-      </script>
     </main>
 
     <style>
@@ -120,10 +70,6 @@
         letter-spacing: 2px;
         cursor: pointer;
         transition: transform 0.2s ease;
-      }
-
-      h1:hover {
-        transform: scale(1.15);
       }
 
       .pulse-arrow {
