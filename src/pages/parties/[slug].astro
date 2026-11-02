@@ -1,0 +1,19 @@
+---
+export function getStaticPaths() {
+  const partyFiles = Object.keys(import.meta.glob("./*.astro"));
+
+  return partyFiles.map((filePath) => {
+    const slug = filePath.replace(/^\.\//, "").replace(/\.astro$/, "");
+
+    return {
+      params: { slug },
+    };
+  });
+}
+
+const { slug } = Astro.params;
+const partyPage = await import(`./${slug}.astro`);
+const PartyPage = partyPage.default;
+---
+
+<PartyPage />

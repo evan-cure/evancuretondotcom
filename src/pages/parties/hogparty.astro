@@ -1,0 +1,428 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Giga&family=Sixtyfour+Convergence&display=swap"
+      rel="stylesheet"
+    />
+    <title>Party</title>
+  </head>
+
+  <body>
+    <video autoplay muted loop playsinline>
+      <source src="/hogsshort.mp4" type="video/mp4" />
+    </video>
+    <audio src="/Bukem_Music.mp3" loop preload="auto"></audio>
+
+    <main>
+      <h1>
+        <button class="party-trigger" type="button" aria-expanded="false">
+          <span class="party-title">HOGPARTY</span>
+          <span class="party-subtitle">click me</span>
+        </button>
+      </h1>
+    </main>
+
+    <!-- Hidden (inert) until the title is clicked -->
+    <div class="barn-overlay" aria-live="polite" inert>
+      <div class="barn-stage">
+        <div class="details">
+          <div class="details-card">
+            <p class="eyebrow">Friday Night</p>
+            <p class="eyebrow">Get ready to go ham</p>
+            <h2>HOG PARTY</h2>
+            <ul>
+              <li>November 6 - 10:00 PM</li>
+              <li>5025 Esplanade</li>
+              <li>See you soon</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="door door--left"></div>
+        <div class="door door--right"></div>
+      </div>
+    </div>
+
+    <button class="volume-btn" type="button" aria-label="Mute">&#9835;</button>
+
+    <script>
+      const OPEN_CLASS = "details-open";
+
+      const trigger = document.querySelector<HTMLElement>(".party-trigger")!;
+      const overlay = document.querySelector<HTMLElement>(".barn-overlay")!;
+      const volumeBtn = document.querySelector<HTMLElement>(".volume-btn")!;
+      const audio = document.querySelector<HTMLAudioElement>("audio")!;
+      const pigSound = new Audio("/pig.mp3");
+      pigSound.preload = "auto";
+
+      function setOpen(open: boolean) {
+        document.body.classList.toggle(OPEN_CLASS, open);
+        trigger.setAttribute("aria-expanded", String(open));
+
+        // `inert` removes hidden elements from clicks and tab order.
+        trigger.inert = open;
+        overlay.inert = !open;
+
+        if (open && audio.paused) {
+          pigSound.currentTime = 0;
+          pigSound.muted = audio.muted;
+          pigSound.play().catch(() => {});
+
+          window.setTimeout(() => {
+            if (audio.paused) {
+              audio.currentTime = 95;
+              audio.play().catch(() => {});
+            }
+          }, 1300);
+        }
+
+        (open ? trigger : trigger).focus({ preventScroll: true });
+      }
+
+      // Open: click the title or subtitle (Enter/Space work natively on the button).
+      trigger.addEventListener("click", () => setOpen(true));
+
+      // Close: a click anywhere outside the card (doors, backdrop).
+      // Escape is intentionally unused because it exits browser fullscreen.
+      overlay.addEventListener("click", (event) => {
+        if (!(event.target as Element).closest(".details-card")) {
+          setOpen(false);
+        }
+      });
+
+      volumeBtn.addEventListener("click", () => {
+        audio.muted = !audio.muted;
+        pigSound.muted = audio.muted;
+        volumeBtn.textContent = audio.muted ? "♫" : "♫";
+        volumeBtn.style.textDecoration = audio.muted ? "line-through" : "none";
+        volumeBtn.setAttribute("aria-label", audio.muted ? "Unmute" : "Mute");
+      });
+    </script>
+
+    <style>
+      /* ---------- Tokens ---------- */
+
+      :root {
+        --barn-red: #b3201b;
+        --barn-red-dark: #7d1511;
+        --barn-white: #f5f0e6;
+
+        --door-ms: 1300ms;
+        --stage-width: min(92vw, 1100px);
+        --stage-height: min(80vh, 700px);
+        --door-border: 12px;
+      }
+
+      /* ---------- Base ---------- */
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Sixtyfour Convergence", sans-serif;
+      }
+
+      button {
+        padding: 0;
+        color: white;
+        font: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+
+      video {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ---------- Title ---------- */
+
+      h1 {
+        margin: 12px 0 0;
+      }
+
+      .party-trigger {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+        transition:
+          opacity 0.35s ease,
+          transform 0.6s ease;
+      }
+
+      .party-trigger:focus-visible {
+        outline: 2px solid white;
+        outline-offset: 12px;
+      }
+
+      /* Title and subtitle go away while the doors are open */
+      .details-open .party-trigger {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+      .party-title {
+        font-size: 7rem;
+        letter-spacing: 2px;
+        animation: flash 1s linear infinite;
+      }
+
+      .party-subtitle {
+        font-size: 1rem;
+        letter-spacing: 0.2rem;
+        animation: flash 1s linear infinite;
+      }
+
+      /* ---------- Volume (top right, above the overlay) ---------- */
+
+      .volume-btn {
+        position: fixed;
+        top: max(1rem, env(safe-area-inset-top));
+        right: max(1rem, env(safe-area-inset-right));
+        z-index: 3;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+        line-height: 1;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .details-open .volume-btn {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .volume-btn:focus-visible {
+        outline: 2px solid white;
+      }
+
+      /* ---------- Overlay + stage ---------- */
+
+      .barn-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        background: rgba(0, 0, 0, 0);
+        transition:
+          opacity 0.4s ease,
+          background 0.8s ease;
+      }
+
+      .details-open .barn-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.65);
+      }
+
+      .barn-stage {
+        position: relative;
+        width: var(--stage-width);
+        height: var(--stage-height);
+        perspective: 1600px;
+        perspective-origin: 50% 45%;
+      }
+
+      /* ---------- Doors ---------- */
+
+      .door {
+        position: absolute;
+        inset-block: 0;
+        width: 50%;
+        box-sizing: border-box;
+        border: var(--door-border) solid var(--barn-white);
+        background: repeating-linear-gradient(
+          90deg,
+          var(--barn-red) 0 34px,
+          var(--barn-red-dark) 34px 36px,
+          var(--barn-white) 36px 41px,
+          var(--barn-red-dark) 41px 43px
+        );
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        backface-visibility: hidden;
+        transition:
+          transform var(--door-ms) cubic-bezier(0.45, 0, 0.2, 1),
+          filter var(--door-ms) ease;
+      }
+
+      /* White X brace */
+      .door::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            to top right,
+            transparent calc(50% - 7px),
+            var(--barn-white) calc(50% - 7px) calc(50% + 7px),
+            transparent calc(50% + 7px)
+          ),
+          linear-gradient(
+            to bottom right,
+            transparent calc(50% - 7px),
+            var(--barn-white) calc(50% - 7px) calc(50% + 7px),
+            transparent calc(50% + 7px)
+          );
+      }
+
+      /* Iron pull handle */
+      .door::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 10px;
+        height: 80px;
+        margin-top: -40px;
+        border-radius: 5px;
+        background: linear-gradient(90deg, #3a3a3a, #111 60%, #444);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      /* Hinged on the outer edges, swinging inward (away from the viewer) */
+      .door--left {
+        left: 0;
+        transform-origin: left center;
+        --swing: 105deg;
+      }
+      .door--left::after {
+        right: 14px;
+      }
+
+      .door--right {
+        right: 0;
+        transform-origin: right center;
+        --swing: -105deg;
+      }
+      .door--right::after {
+        left: 14px;
+      }
+
+      .details-open .door {
+        transform: rotateY(var(--swing));
+        filter: brightness(0.55);
+      }
+
+      /* ---------- Details (revealed behind the doors) ---------- */
+
+      .details {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(0.88);
+        transition:
+          opacity 0.5s ease 0.15s,
+          transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+      }
+
+      .details-open .details {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 0.45s;
+      }
+
+      /* Fills the stage; content is left-aligned and vertically centered */
+      .details-card {
+        position: relative;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+        height: 100%;
+        padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 6vw, 5rem)
+          clamp(1.5rem, 4vw, 3rem);
+        overflow-y: auto;
+        color: white;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.75rem;
+        font-size: clamp(0.75rem, 1.8vw, 1rem);
+        letter-spacing: 0.35rem;
+        text-transform: uppercase;
+      }
+
+      .details-card h2 {
+        margin: 0 0 clamp(1rem, 3vw, 2.5rem);
+        font-size: clamp(2rem, 7vw, 4.5rem);
+        line-height: 1.1;
+      }
+
+      .details-card ul {
+        display: grid;
+        gap: clamp(0.75rem, 2vw, 1.5rem);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: clamp(0.9rem, 2.6vw, 1.75rem);
+        line-height: 1.4;
+      }
+
+      /* ---------- Animation ---------- */
+
+      @keyframes flash {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ---------- Responsive / accessibility ---------- */
+
+      @media (max-width: 768px) {
+        :root {
+          --door-border: 8px;
+        }
+
+        .party-title {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .party-title,
+        .party-subtitle {
+          animation: none;
+        }
+        .door,
+        .details {
+          transition-duration: 0.01ms;
+          transition-delay: 0s;
+        }
+      }
+    </style>
+  </body>
+</html>
